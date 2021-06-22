@@ -8,6 +8,8 @@ package telas;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -26,13 +28,16 @@ import repositorios.ExportarProdutos;
  * @author fabio
  */
 public class ExportacaoVR extends javax.swing.JInternalFrame {
-
+public static int tamanho;
+public static int progresso;
     /**
      * Creates new form ExportacaoVR
      */
     public ExportacaoVR() {
+        Tarefa();
         initComponents();
         esconderComponentes();
+        
     }
 
     /**
@@ -434,6 +439,7 @@ public class ExportacaoVR extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        
          try {
         ExportarMercadologico exp1 = new ExportarMercadologico();
         ExportarProdutos exp2 =  new ExportarProdutos();
@@ -445,34 +451,50 @@ public class ExportacaoVR extends javax.swing.JInternalFrame {
         ExportarCreditoRotativo exp8 = new ExportarCreditoRotativo();
         
        
-            exp1.exportar();
-             jLabelMerc.setEnabled(true);
-  
+                exp1.exportar();      
+                Thread.sleep(200);
+                jLabelMerc.setEnabled(true);
+               
             exp2.exportar();
+            Thread.sleep(200);
             jLabelProd.setEnabled(true);
-       
+          
+            
             exp3.exportar();
+            Thread.sleep(200);
             jLabelFamProd.setEnabled(true);
         
             exp4.exportar();
+            Thread.sleep(200);
             jLabelProdFornec.setEnabled(true);
             
             exp5.exportar();
+             Thread.sleep(200);
             jLabelFornec.setEnabled(true);
+           
        
             exp6.exportar();
+              Thread.sleep(200);
             jLabelCliPref.setEnabled(true);
+          
+            
             exp7.exportar();
              jLabelFornecContato.setEnabled(true);
+             Thread.sleep(200);
+             
             exp8.exportar();
             jLabelCredRot.setEnabled(true);
+            Thread.sleep(20000);
+            
             JOptionPane.showMessageDialog(null, "Exportação concluída com sucesso!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
             
         } catch (SQLException ex) {
             Logger.getLogger(ExportacaoVR.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(ExportacaoVR.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (InterruptedException ex) {
+        Logger.getLogger(ExportacaoVR.class.getName()).log(Level.SEVERE, null, ex);
+    }
            
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -489,9 +511,19 @@ public class ExportacaoVR extends javax.swing.JInternalFrame {
       jLabelProd.setEnabled(false);
       jLabelProdFornec.setEnabled(false);
       jLabelCliPref.setEnabled(false);
-      
-      
    }
+   public  void Tarefa(){
+            
+        Timer timer1 = new Timer();
+        int delay = 100;   // delay de 2 seg.
+        int interval = 1000;  // intervalo de 1 seg.       
+
+        timer1.scheduleAtFixedRate(new TimerTask() {
+        public void run() {
+         jPanel1.repaint();
+        }
+        }, delay, interval);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

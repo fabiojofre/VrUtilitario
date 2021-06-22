@@ -18,8 +18,8 @@ public class ExportarMercadologico {
 	// criando arquivo
 	private String caminhoArquivo = "C:\\vr\\Mercadologico.csv";
 	
-	
-
+        int registro=0;
+        int tamanho ;
 	public void exportar() throws SQLException, IOException {
 		String sql = "select\r\n"
 				+ "	m.mercadologico1 cod_mercadologico1,\r\n"
@@ -41,15 +41,15 @@ public class ExportarMercadologico {
 		Statement stm = AcessoBD.conexao.createStatement();
 		ResultSet rs = stm.executeQuery(sql);
 		
-
+                
 		
-		// definir as colunas com a enumera��o do select
+		// definir as colunas com a enumeracao do select
 		String[] colunas = new String[EnumColunasMercadologicos.getTamanho()];
 		for(int i = 0; i< colunas.length; i++) {
 			colunas[i] = EnumColunasMercadologicos.toEnum(i).getDescricao();		
 		}
-		
-
+		tamanho = rs.getFetchSize();
+               
 		List<String[]> linhas = new ArrayList<>();
 		while (rs.next()) {
 			//povoando as linhas com os dados do banco
@@ -58,7 +58,8 @@ public class ExportarMercadologico {
 				linha[i]= rs.getString(i);
 			}
 			linhas.add(linha);
-
+                        registro ++; //adiciona um contador a cada linha
+                       
 		}
 		Writer writer = Files.newBufferedWriter(Paths.get(caminhoArquivo));
         try (CSVWriter csvWriter = new CSVWriter(writer)) {
@@ -70,5 +71,6 @@ public class ExportarMercadologico {
 
         writer.close();
 	}
+     
 
 }
